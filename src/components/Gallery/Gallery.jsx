@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import * as contentful from "contentful";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export const Gallery = () => {
 
@@ -9,19 +10,29 @@ export const Gallery = () => {
     });
     
     const [gallery, setGallery] = useState()
+    const [description, setDescription] = useState()
 
     useEffect(() => {
         client
-            .getEntries({ content_type: "gallery" })
-            .then((res) => setGallery(res));
+        .getEntries({content_type: "about"})
+        .then((res) => setDescription(res))
+        // console.log(description);
+        
+    })
+
+    useEffect(() => {
+        client
+        .getEntries({ content_type: "gallery" })
+        .then((res) => setGallery(res));
     }, []);
 
     return (
         <>
             <p>Gallery</p>
+            {documentToReactComponents(description?.items[0]?.fields.aboutText.content[0].content[0])}
 
-            {gallery?.items?.map((item) => (
-                <img src={item.fields.image.fields.file.url} alt="" />
+            {gallery?.items?.map((item, index) => (
+                <img key={index} src={item.fields.image.fields.file.url} alt="" />
             ))}
         </>
     )
