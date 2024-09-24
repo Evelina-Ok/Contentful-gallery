@@ -16,10 +16,10 @@ export const Gallery = () => {
         client
         .getEntries({content_type: "about"})
         .then((res) => setDescription(res))
-        // console.log(description);
         
-    })
-
+    }, [])
+    // console.log(description);
+    
     useEffect(() => {
         client
         .getEntries({ content_type: "gallery" })
@@ -29,7 +29,7 @@ export const Gallery = () => {
     return (
         <>
             <p>Gallery</p>
-            {documentToReactComponents(description?.items[0]?.fields.aboutText.content[0].content[0])}
+            {documentToReactComponents(description?.items[0]?.fields.aboutText)}
 
             {gallery?.items?.map((item, index) => (
                 <img key={index} src={item.fields.image.fields.file.url} alt="" />
