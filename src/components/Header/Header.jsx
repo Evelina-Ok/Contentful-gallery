@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import * as contentful from "contentful";
+import h from './Header.module.scss'
 
 export const Header = () => {
 
@@ -14,14 +15,11 @@ export const Header = () => {
         client
         .getEntries({content_type: "header"})
         .then((res) => setHeaderImg(res))
-        // console.log(setHeaderImg);
-        
-    })
+    }, [])
 
     return (
         <>
-            <header>
-                <p>This is the header</p>
+            <header className={h.Header}>
                 <img src={headerImg?.items[0]?.fields.headerImage.fields.file.url} alt="" />
             </header>
         </>

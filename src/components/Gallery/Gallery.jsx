@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import * as contentful from "contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
+import m from './Gallery.module.scss'
+
 export const Gallery = () => {
 
     const client = contentful.createClient({
@@ -18,7 +20,6 @@ export const Gallery = () => {
         .then((res) => setDescription(res))
         
     }, [])
-    // console.log(description);
     
     useEffect(() => {
         client
@@ -27,13 +28,16 @@ export const Gallery = () => {
     }, []);
 
     return (
-        <>
-            <p>Gallery</p>
-            {documentToReactComponents(description?.items[0]?.fields.aboutText)}
+        <main className={m.Gallery}>
+            <p>
+                {documentToReactComponents(description?.items[0]?.fields.aboutText)}
+            </p>
 
-            {gallery?.items?.map((item, index) => (
-                <img key={index} src={item.fields.image.fields.file.url} alt="" />
-            ))}
-        </>
+            <div className={m.Grid}>
+                {gallery?.items?.map((item, index) => (
+                    <img key={index} src={item.fields.image.fields.file.url} alt="" />
+                ))}
+            </div>
+        </main>
     )
 }
